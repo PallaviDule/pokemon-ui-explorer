@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import PokemonTable from "./components/PokemonTable";
 
 export const getServerSideProps: GetServerSideProps = async(context) => {
   const page = Number(context.query.page) || 1;
@@ -21,20 +22,7 @@ export default function Home({pokemons, page}: {pokemons: any[], page: number}) 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Pokémon List (Page {page})</h1>
-      <table className="w-full border-collapse border border-gray-300">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="border p-2 text-left">Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pokemons.map((pokemon) => (
-            <tr key={pokemon.name} className="border hover:bg-gray-100">
-              <td className="p-2 capitalize">{pokemon.name}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <PokemonTable pokemons={pokemons} currentPage={page} />
     </div>
   );
 }
