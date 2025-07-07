@@ -1,9 +1,12 @@
 import Link from "next/link"
 import { useRouter } from "next/router";
-import { useState } from "react"
+import { useState } from "react";
+import PokemonModal from "./PokemonModel";
 
 const PokemonTable = ({pokemons, currentPage, isFiltered}: {pokemons: any[], currentPage: number, isFiltered: boolean   }) => {
     const [searchText, setSearchText] = useState(''); 
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedPokemon, setSelectedPokemon] = useState<any>(null);
     const router = useRouter();
 
     const handleSearchByName = (event: React.FormEvent) => {
@@ -12,6 +15,14 @@ const PokemonTable = ({pokemons, currentPage, isFiltered}: {pokemons: any[], cur
             router.push(`/?name=${searchText.trim().toLowerCase()}`);
         }
     };
+
+
+  const handleRowClick = async (name: string) => {
+    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+    const data = await res.json();
+    setSelectedPokemon(data);
+    setModalOpen(true);
+  };
 
     return (
         <div>
@@ -34,8 +45,11 @@ const PokemonTable = ({pokemons, currentPage, isFiltered}: {pokemons: any[], cur
                 </thead>
                 <tbody>
                 {pokemons.map((pokemon) => (
-                    <tr key={pokemon.name} className="border hover:bg-gray-100">
-                    <td className="p-2 capitalize">{pokemon.name}</td>
+                    <tr 
+                        key={pokemon.name} 
+                        className="border hover:bg-gray-100"
+                        onClick={() => handleRowClick(pokemon.name)}>
+                        <td className="p-2 capitalize">{pokemon.name}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -52,6 +66,11 @@ const PokemonTable = ({pokemons, currentPage, isFiltered}: {pokemons: any[], cur
                 </Link>
                 </div>
             )}
+             <PokemonModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                pokemon={selectedPokemon}
+            />
         </div>
   )
 }
