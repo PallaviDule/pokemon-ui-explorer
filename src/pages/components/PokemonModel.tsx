@@ -31,6 +31,7 @@ export default function PokemonModal({ isOpen, onClose, pokemon }: Props) {
 
         <p><strong>Height:</strong> {pokemon.height}</p>
         <p><strong>Weight:</strong> {pokemon.weight}</p>
+        <p className="mt-2"><strong>Types:</strong> {pokemon.types.map((t: any) => t.type.name).join(', ')}</p>
         <p>
           <strong>Abilities:</strong>{' '}
           {pokemon.abilities.map((a: any) => a.ability.name).join(', ')}
