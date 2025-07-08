@@ -4,6 +4,8 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   flexRender,
+  getSortedRowModel,
+  ColumnDef,
 } from '@tanstack/react-table';
 import PokemonModal from './PokemonModel';
 
@@ -23,28 +25,45 @@ type Props = {
 const PokemonModelNew = ({data, pageCount, currentPage, onPageChange, isFiltered}: Props) => {
     const [modalData, setModalData] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const [sorting, setSorting] = useState([]);
 
-    const columns = React.useMemo(
+    const columns: ColumnDef<Pokemon, any>[] = React.useMemo(
         () => [
         {
             accessorKey: 'name',
-            header: 'Name',
+            header:  ({ column }) => (
+                <button
+                onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+                className="flex items-center space-x-1"
+                >
+                <span>Name</span>
+                {{
+                    asc: '↑',
+                    desc: '↓',
+                }[column.getIsSorted() as string] ?? '⇅'}
+                </button>
+            ),
             cell: (info: any) => <span className="capitalize">{info.getValue()}</span>,
         }],
         []
     );
 
     const table = useReactTable({
-        data, columns, pageCount, 
+        data, 
+        columns, 
+        pageCount, 
         state: {
             pagination: {
                 pageIndex: currentPage-1,
                 pageSize: 20
             },
+            sorting,
         },
         manualPagination: true,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        onSortingChange: setSorting,
         onPaginationChange: (updater) => {
             let nextPage = 0;
             if(typeof updater === 'function') {

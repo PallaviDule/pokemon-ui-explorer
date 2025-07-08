@@ -68,15 +68,17 @@ export default function Home({pokemons, page, isFiltered, dataCount, error}:
     <div className="min-h-screen bg-gray-50 py-5 px-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Pokémon Directory</h1>
-        <SearchBox/>
-        <PokemonModelNew 
-          data={pokemons}  
-          pageCount={Math.ceil(dataCount / 20)} 
-          currentPage={page}  
-          onPageChange={onPageChange} 
-          isFiltered={isFiltered}
-        />
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        <div className="border border-gray-300 rounded-md p-2">
+          <SearchBox/>
+          <PokemonModelNew 
+            data={pokemons}  
+            pageCount={Math.ceil(dataCount / 20)} 
+            currentPage={page}  
+            onPageChange={onPageChange} 
+            isFiltered={isFiltered}
+          />
+          {error && <p className="text-red-500 mt-2">{error}</p>}
+        </div>
       </div>
     </div>
   );
