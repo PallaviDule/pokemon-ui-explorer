@@ -150,7 +150,7 @@ const PokemonModelNew = ({data, pageCount, currentPage, onPageChange, isFiltered
         className={`px-3 py-1 rounded border ${
           currentPage === 1
             ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-            : 'border-gray-300 hover:bg-blue-200'
+            : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
         }`}
       >
         Prev
@@ -162,7 +162,7 @@ const PokemonModelNew = ({data, pageCount, currentPage, onPageChange, isFiltered
         className={`px-3 py-1 rounded border ${
           currentPage === pageCount
             ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-            : 'border-gray-300 hover:bg-blue-200'
+            : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
         }`}
       >
         Next
