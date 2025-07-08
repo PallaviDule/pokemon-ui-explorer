@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { useRouter } from "next/router";
 import { useState } from "react";
-import PokemonModal from "./PokemonModel";
+import PokemonModal from "./PokemonModal";
 
 const PokemonTable = ({pokemons, currentPage, isFiltered}: {pokemons: any[], currentPage: number, isFiltered: boolean   }) => {
     const [searchText, setSearchText] = useState(''); 

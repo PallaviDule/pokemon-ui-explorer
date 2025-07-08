@@ -65,9 +65,9 @@ export default function Home({pokemons, page, isFiltered, dataCount, error}:
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-5 px-4">
+    <div className="min-h-screen bg-gray-50 p-2">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-blue-700 mb-8">Pokémon Directory</h1>
+        <h1 className="text-3xl font-bold text-center text-blue-700 mb-4">Pokémon Directory</h1>
         <div className="border border-gray-300 rounded-md p-2">
           <SearchBox/>
           <PokemonModelNew 
