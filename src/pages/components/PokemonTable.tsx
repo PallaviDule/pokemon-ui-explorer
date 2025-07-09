@@ -3,7 +3,6 @@ import {
   useReactTable,
   getCoreRowModel,
   getPaginationRowModel,
-  flexRender,
   getSortedRowModel,
   ColumnDef,
 } from '@tanstack/react-table';
@@ -13,6 +12,7 @@ import {
   ArrowDown,
   ChevronsUpDown,
 } from 'lucide-react';
+import Table from './TableComponent';
 
 type Pokemon = {
     name: string;
@@ -27,7 +27,7 @@ type Props = {
   isFiltered: boolean
 };
 
-const PokemonModelNew = ({data, pageCount, currentPage, onPageChange, isFiltered}: Props) => {
+const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered}: Props) => {
     const [modalData, setModalData] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [sorting, setSorting] = useState([]);
@@ -95,91 +95,54 @@ const PokemonModelNew = ({data, pageCount, currentPage, onPageChange, isFiltered
     };
 
     return (
-       <div className="flex flex-col max-h-[85vh]">
-  {/* Table with fixed header and scrollable body */}
-  <div className="border border-gray-300 rounded-md overflow-hidden flex-1 flex flex-col">
-    <table className="min-w-full table-fixed">
-      <thead className="bg-gray-100">
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th
-                key={header.id}
-                className="border-b border-gray-300 p-2 text-left text-sm font-semibold"
-              >
-                {flexRender(header.column.columnDef.header, header.getContext())}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-    </table>
+      <div className="flex flex-col max-h-[85vh]">
+        {/* Table with fixed header and scrollable body */}
+        <Table table={table} onRowClick={(row) => handleRowClick(row.name)} />
 
-    {/* Scrollable body in its own wrapper */}
-    <div className="overflow-y-auto flex-1">
-      <table className="min-w-full table-fixed">
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              className="border-b border-gray-200 hover:bg-gray-100 hover:font-bold cursor-pointer"
-              onClick={() => handleRowClick(row.original.name)}
+
+        {/* Pagination Controls */}
+        {!isFiltered && (
+          <div className="mt-2 flex justify-end items-center space-x-4 text-sm text-gray-700">
+            <span>
+              Page <strong>{currentPage}</strong> of <strong>{pageCount}</strong>
+            </span>
+
+            <button
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`px-3 py-1 rounded border ${
+                currentPage === 1
+                  ? 'border-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
+              }`}
             >
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="p-2 text-sm">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              Prev
+            </button>
+
+            <button
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage === pageCount}
+              className={`px-3 py-1 rounded border ${
+                currentPage === pageCount
+                  ? 'border-gray-200 text-gray-400 cursor-not-allowed'
+                  : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
+              }`}
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+        {/* Modal */}
+        {modalData && (
+          <PokemonModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+            pokemon={modalData}
+          />
+        )}
     </div>
-  </div>
-
-  {/* Pagination Controls */}
-  {!isFiltered && (
-    <div className="mt-2 flex justify-end items-center space-x-4 text-sm text-gray-700">
-      <span>
-        Page <strong>{currentPage}</strong> of <strong>{pageCount}</strong>
-      </span>
-
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className={`px-3 py-1 rounded border ${
-          currentPage === 1
-            ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-            : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
-        }`}
-      >
-        Prev
-      </button>
-
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === pageCount}
-        className={`px-3 py-1 rounded border ${
-          currentPage === pageCount
-            ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-            : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
-        }`}
-      >
-        Next
-      </button>
-    </div>
-  )}
-
-  {/* Modal */}
-  {modalData && (
-    <PokemonModal
-      isOpen={modalOpen}
-      onClose={() => setModalOpen(false)}
-      pokemon={modalData}
-    />
-  )}
-</div>
-    )
+  )
 }
 
-export default PokemonModelNew;
+export default PokemonTable;
