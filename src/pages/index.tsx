@@ -1,15 +1,8 @@
 import { GetServerSideProps } from "next";
-import PokemonModelNew from "./components/PokemonTable";
-import { useRouter } from "next/router";
-import SearchBox from "./components/SearchBox";
 import EvolutionTriggerTable from "./components/EvolutionTriggerTable";
+import PokemonTableSection from "./components/PokemonTableSection";
 
 type Pokemon = {
-  name: string;
-  url: string;
-};
-
-type EvolutionTrigger = {
   name: string;
   url: string;
 };
@@ -19,11 +12,7 @@ type HomeProps = {
   page: number;
   isFiltered: boolean;
   dataCount: number;
-  error?: string | null;
-  evolutionTriggers: EvolutionTrigger[];
-  evolutionCount: number;
-  evolutionPage: number;
-  evolutionLimit: number;
+  error: string | null;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -36,7 +25,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     let pokemons = [];
     let dataCount = 0;
     let isFiltered = false;
-    let error = null;
 
     // If searching by name
     if (name) {
@@ -58,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         page,
         isFiltered,
         dataCount,
-        error
+        error: null
       }
     };
   } catch (err) {
@@ -81,31 +69,17 @@ export default function Home({
   dataCount,
   error,}: 
   HomeProps) {
-  console.log('Pokemons:', pokemons);
-  const router = useRouter();
-
-  const onPageChange = (newPage) => {
-    router.push({
-      pathname: '/',
-      query: { ...router.query, page: newPage },
-    });
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-2">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-blue-700 mb-4">Pokémon Table</h1>
-        <div className="border border-gray-300 rounded-md p-2">
-          <SearchBox/>
-          <PokemonModelNew 
-            data={pokemons}  
-            pageCount={Math.ceil(dataCount / 20)} 
-            currentPage={page}  
-            onPageChange={onPageChange} 
-            isFiltered={isFiltered}
-          />
-          {error && <p className="text-red-500 mt-2">{error}</p>}
-        </div>
+        <PokemonTableSection
+          pokemons={pokemons}
+          page={page}
+          isFiltered={isFiltered}
+          dataCount={dataCount}
+          error={error}
+        />
         <EvolutionTriggerTable />
       </div>
     </div>

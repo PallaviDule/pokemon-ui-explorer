@@ -1,14 +1,29 @@
 # Pokemon-ui-explorer
-A server-side rendered React (Next.js) application that displays a paginated, filterable data table with modal drill-down views. Built using TypeScript, Tailwind CSS, and modern React practices, this app demonstrates SSR data fetching, table interactions, and component-driven architecture.
+This is a [Next.js](https://nextjs.org) project , bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app), that shows a list of Pokémon in a table with pagination and sorting. You can search by name and click on any Pokémon to see more details in a modal. It also has a separate table for evolution triggers.
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+Built with TypeScript, Tailwind CSS, and React Table.
 
-## Getting Started
+### How to run
+1. Run commands: 
+    ```
+    npm install
+    npm run dev
+    ```
+2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-First, run the development server:
 
-```bash
-npm run dev
-```
+### What’s inside
+- Server-side data fetching with Next.js
+- Table with pagination and sorting
+- Search Pokémon by name
+- Modal to show Pokémon details
+- Separate evolution triggers table
+- Reusable table component using React Table
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Notes
+- Data comes from the free PokéAPI
+- Pagination and filtering happen on the server (SSR) using Next.js getServerSideProps
+- Table and pagination controls use server-side rendering for SEO and faster first load
+- Clicking a row fetches Pokémon details on the client (CSR) and opens a modal without a page reload
+- The Evolution Trigger table always stays visible and fetches its own data separately, also supporting pagination
+

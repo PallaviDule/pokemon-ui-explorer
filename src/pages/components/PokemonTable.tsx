@@ -6,7 +6,6 @@ import {
   getSortedRowModel,
   ColumnDef,
 } from '@tanstack/react-table';
-import PokemonModal from './PokemonModal';
 import {
   ArrowUp,
   ArrowDown,
@@ -24,12 +23,11 @@ type Props = {
   pageCount: number;
   currentPage: number;
   onPageChange: (page: number) => void;
-  isFiltered: boolean
+  isFiltered: boolean,
+  onRowClick: (name: string) => void;
 };
 
-const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered}: Props) => {
-    const [modalData, setModalData] = useState(null);
-    const [modalOpen, setModalOpen] = useState(false);
+const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered, onRowClick}: Props) => {
     const [sorting, setSorting] = useState([]);
 
     const columns: ColumnDef<Pokemon, any>[] = React.useMemo(
@@ -83,21 +81,10 @@ const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered}: 
         }
     });
 
-    const handleRowClick = async (name: string) => {
-        try {
-            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-            const data = await res.json();
-            setModalData(data);
-            setModalOpen(true);
-        } catch (err) {
-            console.error('Failed to fetch Pokémon details:', err);
-        }
-    };
-
     return (
       <div className="flex flex-col max-h-[85vh]">
         {/* Table with fixed header and scrollable body */}
-        <Table table={table} onRowClick={(row) => handleRowClick(row.name)} />
+        <Table table={table} onRowClick={(row) => onRowClick(row.name)} />
 
 
         {/* Pagination Controls */}
@@ -131,15 +118,6 @@ const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered}: 
               Next
             </button>
           </div>
-        )}
-
-        {/* Modal */}
-        {modalData && (
-          <PokemonModal
-            isOpen={modalOpen}
-            onClose={() => setModalOpen(false)}
-            pokemon={modalData}
-          />
         )}
     </div>
   )
