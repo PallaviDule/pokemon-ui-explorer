@@ -22,6 +22,10 @@ const PokemonTableSection = ({ pokemons, page, isFiltered, dataCount, error }: P
     };
 
     const handleRowClick = async (name: string) => {
+        if (selectedPokemon?.name === name) {
+            setModalOpen(true);
+            return;
+        }
         try {
             const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
             const data = await res.json();
@@ -32,7 +36,7 @@ const PokemonTableSection = ({ pokemons, page, isFiltered, dataCount, error }: P
         }
     };
 
-  return (
+    return (
     <>
         <h1 className="text-3xl font-bold text-center text-blue-700 mb-4">Pokémon Table</h1>
         <div className="border border-gray-300 rounded-md p-2">

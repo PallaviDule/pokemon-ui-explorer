@@ -12,6 +12,7 @@ import {
   ChevronsUpDown,
 } from 'lucide-react';
 import Table from './TableComponent';
+import TableFooter from './TableFooter';
 
 type Pokemon = {
     name: string;
@@ -89,35 +90,11 @@ const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered, o
 
         {/* Pagination Controls */}
         {!isFiltered && (
-          <div className="mt-2 flex justify-end items-center space-x-4 text-sm text-gray-700">
-            <span>
-              Page <strong>{currentPage}</strong> of <strong>{pageCount}</strong>
-            </span>
-
-            <button
-              onClick={() => onPageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className={`px-3 py-1 rounded border ${
-                currentPage === 1
-                  ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
-              }`}
-            >
-              Prev
-            </button>
-
-            <button
-              onClick={() => onPageChange(currentPage + 1)}
-              disabled={currentPage === pageCount}
-              className={`px-3 py-1 rounded border ${
-                currentPage === pageCount
-                  ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
-              }`}
-            >
-              Next
-            </button>
-          </div>
+          <TableFooter
+            currentPage={currentPage}
+            pageCount={pageCount}
+            onPageChange={onPageChange}
+          />
         )}
     </div>
   )

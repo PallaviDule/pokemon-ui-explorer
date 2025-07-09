@@ -6,6 +6,7 @@ import {
   ColumnDef,
 } from '@tanstack/react-table';
 import Table from './TableComponent';
+import TableFooter from './TableFooter';
 
 type EvolutionTrigger = {
   name: string;
@@ -72,39 +73,20 @@ const EvolutionTriggerTable = () => {
     },
   });
 
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="mt-6 flex flex-col max-h-[70vh]">
-      <h2 className="text-xl font-semibold mb-3">Evolution Triggers</h2>
-      <Table table={table} />
-
-      <div className="mt-2 flex justify-end items-center space-x-4 text-sm text-gray-700">
-        <span>
-          Page <strong>{currentPage}</strong> of <strong>{pageCount}</strong>
-        </span>
-
-        <button
-          onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-          disabled={currentPage === 1}
-          className={`px-3 py-1 rounded border ${
-            currentPage === 1
-              ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-              : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
-          }`}
-        >
-          Prev
-        </button>
-
-        <button
-          onClick={() => setCurrentPage((p) => p + 1)}
-          disabled={currentPage === pageCount}
-          className={`px-3 py-1 rounded border ${
-            currentPage === pageCount
-              ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-              : 'border-gray-300 hover:bg-blue-600 hover:text-white hover:font-bold'
-          }`}
-        >
-          Next
-        </button>
+      <h2 className="text-2xl font-bold mb-3 text-blue-700 text-center">Evolution Triggers</h2>
+      <div className='border border-gray-300 rounded-md p-2'>
+        <Table table={table} />
+        <TableFooter
+          currentPage={currentPage}
+          pageCount={pageCount}
+          onPageChange={onPageChange}
+        />
       </div>
     </div>
   );
