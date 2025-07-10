@@ -38,7 +38,8 @@ Built with TypeScript, Tailwind CSS, and React Table.
   * Moved all fetch logic into a centralized API utility file.
   * Created custom hooks like `usePokemonData`, `useEvolutionTriggers` to separate logic from UI.
   * Added consistent error and loading state handling across components.
-  + Replace `any` type with proper type definitions for better TypeScript safety (e.g., SelectedPokemon type).
+  * Replace `any` type with proper type definitions for better TypeScript safety (e.g., SelectedPokemon type).
+  * Use client-side filtering if data already fetched, avoid extra API call.
 
 ### UX/UI Improvements
 

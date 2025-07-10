@@ -49,13 +49,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         error: null
       }
     };
-  } catch (err) {
+  } catch (err: unknown) {
+    let errorMessage: string = "Pokemon not found. Please try again.";
+
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+
     return {
       props: {
         pokemons: [],
         page: 1,
         isFiltered: false,
-        error: 'Pokemon not found. Please try another name.',
+        error: errorMessage,
         dataCount: 0,
       }
     };
