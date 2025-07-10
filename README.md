@@ -11,6 +11,7 @@ Built with TypeScript, Tailwind CSS, and React Table.
     ```
 2. Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
+[**Live Demo on Vercel**](https://pokemon-ui-explorer-hnkq.vercel.app/)
 
 ### What’s inside
 - Server-side data fetching with Next.js
