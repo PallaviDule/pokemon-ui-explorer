@@ -5,6 +5,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   ColumnDef,
+  SortingState,
 } from '@tanstack/react-table';
 import {
   ArrowUp,
@@ -29,7 +30,7 @@ type Props = {
 };
 
 const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered, onRowClick}: Props) => {
-    const [sorting, setSorting] = useState([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
 
     const columns: ColumnDef<Pokemon, any>[] = React.useMemo(
         () => [
@@ -72,11 +73,12 @@ const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered, o
         getSortedRowModel: getSortedRowModel(),
         onSortingChange: setSorting,
         onPaginationChange: (updater) => {
-            let nextPage = 0;
+            let nextPage:number = 0;
             if(typeof updater === 'function') {
-                nextPage = updater(currentPage-1);
+              const updatedState = updater({ pageIndex: currentPage - 1, pageSize: 10 });
+              nextPage = updatedState.pageIndex;
             } else {
-                nextPage = updater;
+              nextPage = updater.pageIndex;
             }
             onPageChange(nextPage+1);
         }
@@ -86,7 +88,6 @@ const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered, o
       <div className="flex flex-col max-h-[85vh]">
         {/* Table with fixed header and scrollable body */}
         <Table table={table} onRowClick={(row) => onRowClick(row.name)} />
-
 
         {/* Pagination Controls */}
         {!isFiltered && (

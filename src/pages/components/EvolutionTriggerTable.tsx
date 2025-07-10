@@ -63,11 +63,12 @@ const EvolutionTriggerTable = () => {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: (updater) => {
-      let nextPage = 0;
+      let nextPage: number = 0;
       if (typeof updater === 'function') {
-        nextPage = updater(currentPage - 1);
+        const updatedState = updater({ pageIndex: currentPage - 1, pageSize: 10 });
+        nextPage = updatedState.pageIndex;
       } else {
-        nextPage = updater;
+        nextPage = updater.pageIndex;
       }
       setCurrentPage(nextPage + 1);
     },
