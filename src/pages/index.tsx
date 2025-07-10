@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
-import EvolutionTriggerTable from "./components/EvolutionTriggerTable";
-import PokemonTableSection from "./components/PokemonTableSection";
+import EvolutionTriggerTable from "../components/EvolutionTriggerTable";
+import PokemonTableSection from "../components/PokemonTableSection";
 
 type Pokemon = {
   name: string;
