@@ -43,7 +43,7 @@ const EvolutionTriggerTable = () => {
       {
         accessorKey: 'name',
         header: 'Evolution Trigger',
-        cell: (info) => <span className="capitalize">{info.getValue()}</span>,
+        cell: (info: any) => <span className="capitalize">{info.getValue()}</span>,
       },
     ],
     []
