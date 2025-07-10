@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         pokemons: [],
         page: 1,
         isFiltered: false,
-        error: 'Pokemon not found. Please try again.',
+        error: 'Pokemon not found. Please try another name.',
         dataCount: 0,
       }
     };

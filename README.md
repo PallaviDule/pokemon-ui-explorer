@@ -9,7 +9,7 @@ Built with TypeScript, Tailwind CSS, and React Table.
     npm install
     npm run dev
     ```
-2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
 
 ### What’s inside
@@ -27,3 +27,25 @@ Built with TypeScript, Tailwind CSS, and React Table.
 - Clicking a row fetches Pokémon details on the client (CSR) and opens a modal without a page reload
 - The Evolution Trigger table always stays visible and fetches its own data separately, also supporting pagination
 
+## Future Plan
+
+### Code & Architecture
+
+* Tried to modularize the project by splitting parts like Pokémon table, modal, and search bar into separate components.
+* With more time, I would have:
+
+  * Combined the table and footer into a reusable `DataTable` component.
+  * Moved all fetch logic into a centralized API utility file.
+  * Created custom hooks like `usePokemonData`, `useEvolutionTriggers` to separate logic from UI.
+  * Added consistent error and loading state handling across components.
+
+### UX/UI Improvements
+
+* Would have added loading spinners during data fetch for better feedback.
+* Shown a “No results found” message in better way with a reset button when search returns nothing.
+* Preserved scroll position on page change (e.g., using `scrollIntoView` or shallow routing) for smoother experience.
+
+### Extra Features
+
+* Highlight the active table row when modal opens.
+* Add animations to the modal for a smoother and polished feel.
