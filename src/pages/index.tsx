@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import EvolutionTriggerTable from "../components/EvolutionTriggerTable";
 import PokemonTableSection from "../components/PokemonTableSection";
+import { fetchPokemonByName, fetchPokemons } from "./api/pokemon";
 
 type Pokemon = {
   name: string;
@@ -28,16 +29,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     // If searching by name
     if (name) {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
-      if (!response.ok) throw new Error('Not found');
-      const data = await response.json();
-      pokemons = [data];
+      // const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
+      // if (!response.ok) throw new Error('Not found');
+      // const data = await response.json();
+      const pokemonByName = await fetchPokemonByName(name);
+
+      pokemons = [pokemonByName];
       isFiltered = true;
     } else {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
-      const data = await response.json();
-      pokemons = data.results || [];
-      dataCount = data.count || 0;
+      // const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
+      // const data = await response.json();
+      const fetchedPokemon = await fetchPokemons(limit, offset);
+      pokemons = fetchedPokemon.results || [];
+      dataCount = fetchedPokemon.count || 0;
     }
 
     return {

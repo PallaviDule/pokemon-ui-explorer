@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import SearchBox from './SearchBox';
 import PokemonTable from './PokemonTable';
 import PokemonModal from './PokemonModal';
+import { fetchPokemonByName } from '@/pages/api/pokemon';
 
 type Props = {
   pokemons: any[];
@@ -27,9 +28,10 @@ const PokemonTableSection = ({ pokemons, page, isFiltered, dataCount, error }: P
             return;
         }
         try {
-            const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-            const data = await res.json();
-            setSelectedPokemon(data);
+            // const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+            // const data = await res.json();
+            const pokemonByName = await fetchPokemonByName(name);
+            setSelectedPokemon(pokemonByName);
             setModalOpen(true);
         } catch (err) {
             console.error('Failed to fetch Pokémon details:', err);

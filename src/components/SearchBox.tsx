@@ -14,6 +14,7 @@ export default function SearchBox({ initialValue = '' }) {
       router.push('/?page=1');
     }
   };
+  console.log('Search box');
 
   return (
     <div className="mb-2">

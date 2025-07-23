@@ -1,12 +1,9 @@
+'use-client';
 import React, { useEffect, useState } from 'react';
-import {
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  ColumnDef,
-} from '@tanstack/react-table';
+import { useReactTable, getCoreRowModel, getPaginationRowModel, ColumnDef,} from '@tanstack/react-table';
 import Table from './TableComponent';
 import TableFooter from './TableFooter';
+import { fetchEvolutionTrigger } from '@/pages/api/evolution';
 
 type EvolutionTrigger = {
   name: string;
@@ -29,10 +26,11 @@ const EvolutionTriggerTable = () => {
     const fetchData = async () => {
       const offset = (currentPage - 1) * pageSize;
       try {
-        const res = await fetch(`https://pokeapi.co/api/v2/evolution-trigger?limit=${pageSize}&offset=${offset}`);
-        const json = await res.json();
-        setData(json.results);
-        setTotalCount(json.count);
+        // const res = await fetch(`https://pokeapi.co/api/v2/evolution-trigger?limit=${pageSize}&offset=${offset}`);
+        // const json = await res.json();
+        const result = await fetchEvolutionTrigger(pageSize, offset);
+        setData(result.results);
+        setTotalCount(result.count);
       } catch (err) {
         console.error('Failed to fetch evolution triggers:', err);
       }

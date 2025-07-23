@@ -31,6 +31,8 @@ type Props = {
 
 const PokemonTable = ({data, pageCount, currentPage, onPageChange, isFiltered, onRowClick}: Props) => {
     const [sorting, setSorting] = useState<SortingState>([]);
+      console.log('Pokemon Table');
+
 
     const columns: ColumnDef<Pokemon, any>[] = React.useMemo(
         () => [
